@@ -1,0 +1,26 @@
+---
+# A list of events to generate, in order
+- type: start_proc
+  path: proc_location
+  arguments: args
+  name: 'Event Start proc'
+
+- type: create_file
+  path: file_location
+  type: file_type
+  name: 'Create a file'
+
+- type: modify_file
+  path: file_location
+  name: 'Modify a file'
+
+- type: delete_file
+  path: file_location
+  name: 'Delete a file'
+
+- type: network_request
+  address: network addr
+  port: network port
+  protocol: 'test proto'
+  name: 'Delete a file'
+
