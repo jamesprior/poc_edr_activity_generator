@@ -1,13 +1,17 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    yaml (0.1.1)
+    json (2.3.1)
+    minitest (5.14.2)
+    rake (13.0.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  yaml
+  json
+  minitest
+  rake
 
 BUNDLED WITH
    2.0.2

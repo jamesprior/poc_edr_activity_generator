@@ -5,40 +5,24 @@
 
 require 'rubygems'
 require 'bundler/setup'
-require 'yaml'
-require 'logger'
+require './edr_activity_generator'
 
-LOG_LEVEL = Logger::DEBUG
-
-@logger = Logger.new(STDOUT)
-@logger.level = LOG_LEVEL
+logger = Logger.new(STDOUT)
+logger.level = Logger::DEBUG
 
 config_filename = ARGV[0]
 
-def valid_config_option(config_filename)
-  @logger.debug("validating config filename: #{config_filename}")
-  if config_filename.nil? || config_filename.empty?
-    @logger.warn("config filename is blank")
-    return false
-  end
+activity_generator = EdrActivityGenerator.new(config_filename: config_filename, logger: logger)
 
-  full_path = File.expand_path(config_filename)
-  if ! File.file?(full_path)
-    @logger.warn("config is not a file")
-    return false
-  end
+activity_generator.execute!
 
-  contents = begin
-    YAML.load_file(full_path)
-  rescue StandardError => e
-    @logger.warn("could not load config yaml: #{e.message}")
-    false
-  end
+# TODO:  see if we can get event slimmed down in what it emits, maybe on a per-type basis.
+# TODO make some base classes?
+# TODO file creation
 
-  @logger.debug("config file contents are #{contents.inspect}")
-  return false unless contents
-
-  true
-end
-
-abort("A configuration file is required, see config.example.yml for a sample") unless valid_config_option(config_filename)
+# Questions
+# gotta be process owner name, or could it be uid?
+# how much polish
+# how many tests?
+# what do we mean by 'file type' - could it be part of the path?
+# yo are we sure about all this because it seems like a lot for 4-6 hours
