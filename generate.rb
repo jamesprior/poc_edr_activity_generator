@@ -16,6 +16,8 @@ activity_generator = EdrActivityGenerator.new(config_filename: config_filename, 
 
 activity_generator.execute!
 
+puts activity_generator.events.to_json
+
 # TODO:  see if we can get event slimmed down in what it emits, maybe on a per-type basis.
 # TODO make some base classes?
 # TODO file creation

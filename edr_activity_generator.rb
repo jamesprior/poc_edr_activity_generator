@@ -7,6 +7,10 @@ require 'yaml'
 require 'logger'
 require 'lib/event'
 require 'lib/operation/process_start'
+require 'lib/operation/create_file'
+require 'lib/operation/delete_file'
+require 'lib/operation/modify_file'
+
 
 # Runner class
 class EdrActivityGenerator
@@ -23,13 +27,13 @@ class EdrActivityGenerator
   def load_operations
     logger.debug("validating config filename: #{config_filename}")
     if config_filename.nil? || config_filename.empty?
-      logger.warn("config filename is blank")
+      logger.error("config filename is blank")
       return []
     end
 
     full_path = File.expand_path(config_filename)
     if ! File.file?(full_path)
-      logger.warn("config is not a file")
+      logger.error("config is not a file")
       return []
     end
 
@@ -38,7 +42,7 @@ class EdrActivityGenerator
         operation.transform_keys!(&:to_sym)
       end
     rescue StandardError => e
-      logger.warn("could not load config yaml: #{e.message}")
+      logger.error("could not load config yaml: #{e.message}")
       []
     end
   end
@@ -48,10 +52,11 @@ class EdrActivityGenerator
       next unless valid_operation?(operation)
 
       begin
+        logger.debug("Invoking operation #{operation.inspect}")
         @events << Operation.const_get(operation[:type]).new(operation).invoke
       rescue StandardError => e
-        @logger.error("Could not complete operation #{operation.inspect}: #{e.message}")
-        @logger.debug(e.backtrace.join("\n"))
+        logger.error("Could not complete operation #{operation.inspect}: #{e.message}")
+        logger.debug(e.backtrace.join("\n"))
       end
     end
   end
@@ -59,9 +64,11 @@ class EdrActivityGenerator
   protected
   def valid_operation?(operation)
     unless VALID_OPERATIONS.include?(operation[:type])
-      @logger.warn("Operation #{operation.inspect} it is not one of #{VALID_OPERATIONS.inspect}")
-      false
+      logger.warn("Operation #{operation.inspect} it is not one of #{VALID_OPERATIONS.inspect}")
+      return false
     end
+
+    true
   end
 
   def default_logger

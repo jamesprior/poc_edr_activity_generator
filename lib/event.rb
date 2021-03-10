@@ -9,8 +9,8 @@ class Event
 
   attr_accessor *ATTRS
 
-  def to_json
-    attributes.to_json
+  def to_json(*args)
+    attributes.to_json(args)
   end
 
   def attributes
