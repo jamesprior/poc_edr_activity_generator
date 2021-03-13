@@ -1,26 +1,25 @@
 ---
 # A list of events to generate, in order
-- type: start_proc
-  path: proc_location
-  arguments: args
-  name: 'Event Start proc'
+- type: ProcessStart
+  path: '/usr/bin/uname'
+  arguments: -a
+  name: 'Fetch uname'
 
-- type: create_file
-  path: file_location
-  type: file_type
-  name: 'Create a file'
+- type: CreateFile
+  path: ./tmp/test.txt
+  file_type: txt
+  name: 'Create ./tmp/test.txt'
 
-- type: modify_file
-  path: file_location
-  name: 'Modify a file'
+- type: ModifyFile
+  path: ./tmp/test.txt
+  name: 'Modify ./tmp/test.txt'
 
-- type: delete_file
-  path: file_location
-  name: 'Delete a file'
+- type: DeleteFile
+  path: ./tmp/test.txt
+  name: 'Delete ./tmp/test.txt'
 
-- type: network_request
-  address: network addr
-  port: network port
-  protocol: 'test proto'
-  name: 'Delete a file'
+- type: NetworkRequest
+  host: www.redcanary.com
+  port: 80
+  name: 'Say HELO to red canary on port 80'
 
