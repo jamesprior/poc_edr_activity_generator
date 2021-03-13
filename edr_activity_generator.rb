@@ -78,7 +78,7 @@ class EdrActivityGenerator
   end
 
   def default_logger
-    default_logger = Logger.new(STDOUT)
+    default_logger = Logger.new(STDERR)
     default_logger.level = Logger::DEBUG
     default_logger
   end

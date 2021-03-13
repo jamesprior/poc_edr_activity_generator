@@ -14,12 +14,19 @@ module Operation
     end
 
     def invoke
+      read_pipe, write_pipe = IO.pipe
       full_cmd = "#{path} #{arguments}"
       event.process_cmd = full_cmd
+
       event.timestamp = Time.now.usec
-      event.process_id = spawn(full_cmd)
+      pid = Process.spawn(full_cmd, :out => write_pipe, :err => [:child, :out])
+      event.process_id = pid
+      Process.detach(pid)
 
       event
+    ensure
+      read_pipe.close
+      write_pipe.close
     end
   end
 end
