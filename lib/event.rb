@@ -2,7 +2,7 @@
 # A singular event indicating some activity that should be noticed and consumed by the EDR agent
 class Event
   ATTRS = [
-    :timestamp, :username, :process_name, :process_id,
+    :timestamp, :username, :process_id,
     :process_cmd, :full_path, :activity_type, :network_dst_host, :network_dst_port,
     :network_src_host, :network_src_port, :network_data_sent, :network_protocol
   ].freeze
