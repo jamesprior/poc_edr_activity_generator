@@ -3,11 +3,11 @@
 class Event
   ATTRS = [
     :timestamp, :username, :process_name, :process_id,
-    :process_cmd, :full_path, :activity_type, :network_host, :network_port,
-    :network_data_sent, :network_protocol
+    :process_cmd, :full_path, :activity_type, :network_dst_host, :network_dst_port,
+    :network_src_host, :network_src_port, :network_data_sent, :network_protocol
   ].freeze
 
-  attr_accessor *ATTRS
+  attr_accessor(*ATTRS)
 
   def to_json(*args)
     attributes.to_json(args)

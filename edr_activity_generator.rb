@@ -5,11 +5,17 @@ $LOAD_PATH.unshift(lib_path) unless $LOAD_PATH.include?(lib_path)
 require 'json'
 require 'yaml'
 require 'logger'
+require 'socket'
 require 'lib/event'
 require 'lib/operation/process_start'
 require 'lib/operation/create_file'
 require 'lib/operation/delete_file'
 require 'lib/operation/modify_file'
+require 'lib/operation/network_request'
+require 'lib/os'
+if OS.windows?
+  require 'lib/operation/windows/network_request'
+end
 
 
 # Runner class
